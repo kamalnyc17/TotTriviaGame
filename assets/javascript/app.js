@@ -1,81 +1,119 @@
 var gameName = [];
 var correctAnswer;
 var gameCounter = 0;
-var gameTimeLeft;
+var timeCounter;
+var timeLeft = 5;
+var pauseLeft = 3;
+var gamePauseCounter;
 var mySelection = "";
 var totalWin = 0;
 var totalLose = 0;
-var totalUnAnswer = 0;
+var totalUnanswer = 0;
+var isClicked = false;
 
 /* initializing array. 1st element is question. last element is the correct answer.  */
-gameName[0] = ["What was the first hit of Michael Jackson?", "AAA1", "AAA2", "AAA3", "AAA4", "AAA1"];
-gameName[1] = ["What was the first movie of whitney houston?", "BBB1", "BBB2", "BBB3", "BBB4", "BBB2"];
-gameName[2] = ["What is the name of the song with David Bowie & Mick Jagger?", "CCC1", "CCC2", "CCC3", "CCC4", "CCC3"];
-gameName[3] = ["When was the song Hotel California released?", "DDD1", "DDD2", "DDD3", "DDD4", "DDD4"];
-gameName[4] = ["This is a test", "zzz1", "zzz2", "zzz3", "zzz5", "zzz5"];
-gameName[5] = ["This is a demo ONE", "XXX1", "XXX2", "XXX3", "XXX5", "XXX3"];
-gameName[6] = ["This is a demo TWO", "MMM1", "MMM2", "MMM3", "MMM5", "MMM1"];
-gameName[7] = ["This is a demo THREE", "SSS1", "SSS2", "SSS3", "SSS4", "SSS1"];
+gameName[0] = ["What was the first hit of Michael Jackson?", "Beat It", "The Girl Is Mine", "Thriller", "Bad", "The Girl Is Mine"];
+gameName[1] = ["What was the first movie of whitney houston?", "The Bodyguard", "Whitney", "Waiting to Exhale", "The Preacher's Wife", "The Bodyguard"];
+gameName[2] = ["What is the name of the song with David Bowie & Mick Jagger?", "Under Pressure", "Paint It Black", "Space Oddity", "Dancing in the Street", "Dancing in the Street"];
+gameName[3] = ["When was the song Hotel California released?", "1977", "1982", "1975", "1984", "1977"];
 
+// count down clock for question
+function decrement() {
+    timeLeft--;
+    console.log("decrement " + timeLeft);
+    $("#time-left").text(timeLeft);
+    if (timeLeft <= 0) {
+        if (!isClicked) {
+            $("#correct2").text(correctAnswer);
+            $(".timeout-result, .correct-answer2, #timeout").show();
+            totalUnanswer++;
+        }
+        clearInterval(timeCounter);
+        $("#time-left").text(timeLeft);
+        timeLeft = 5;
+        gamePauseCounter = setInterval(gamePause, 1000 * 3);
+    }
+}
+// count down clock for "in between wait"
+function gamePause() {
+    timeLeft = 5;
+    clearInterval(gamePauseCounter);
+    timeCounter = setInterval(decrement, 1000);
+    if (gameCounter < 4) {
+        openingScreen();
+    } else {
+        resetGame();
+    }
+}
+// display scoreboard and offer to replay
+var resetGame = function () {
+    $("#start").hide();
+    $(".time-count-down, .game-question, #start, .winer-result, .loser-result, .correct-answer1, .Interval-result, .correct-answer2, li, img").hide();
+    $(".final-result, .correct, .incorrect, .unanswered, #restart").show();
+    $("#correct-no").text(totalWin);
+    $("#incorrect-no").text(totalLose);
+    $("#unanswered-no").text(totalUnanswer);
 
+    gameCounter = 0;
+    timeLeft = 5;
+    pauseLeft = 3;
+    mySelection = "";
+    totalWin = 0;
+    totalLose = 0;
+    totalUnanswer = 0;
+    isClicked = false;
 
+    $("#restart").on('click', function () {
+        clearInterval(timeCounter);
+        timeCounter = setInterval(decrement, 1000);
+        //openingScreen();
+    });
+}
 // opening screen of the game
 var openingScreen = function () {
-    if (gameCounter < 8) {
-        alert( "entry: " + gameCounter);
-        $("#start").hide();
-        $(".gen-style, .sub-style, img").hide();
-        $(".time-count-down, .game-question, ul, li").show();
-        gameTimeLeft = 10;
-        $("#time-left").text(gameTimeLeft);
-        var gameTime = setInterval(function () {
-            $("#time-left").text(gameTimeLeft);
-            gameTimeLeft--;
-            if (gameTimeLeft <= 0) {
-                $("#time-left").text(gameTimeLeft);
-                clearInterval(gameTime);
-            }
-        }, 1000); // timer for count down
+    $("#time-left").text(timeLeft);
+    $("#start").hide();
+    $(".gen-style, .sub-style, img").hide();
+    $(".time-count-down, .game-question, ul, li").show();
 
-        $(".game-question").text(gameName[gameCounter][0]);
-        for (let j = 1; j < 5; j++) {
-            $("#ans-" + (j).toString().trim()).text(gameName[gameCounter][j]);
-        }
-        correctAnswer = gameName[gameCounter][5];
-        gameCounter++;
-        alert( "exit: " + gameCounter);
-        optSelect();
+    $(".game-question").text(gameName[gameCounter][0]);
+    for (let j = 1; j < 5; j++) {
+        $("#ans-" + (j).toString().trim()).text(gameName[gameCounter][j]);
     }
+    correctAnswer = gameName[gameCounter][5];
+    gameCounter++;
+    optSelect();
 }
 // action after selecting an option
 var optSelect = function () {
+    isClicked = false;
     $("li").on('click', function () {
+        isClicked = true;
         mySelection = $(this).text();
-        alert( "Correct Answer: " + correctAnswer+ " MySelection: " + mySelection + " gameCounter: " + gameCounter);
         if (correctAnswer === mySelection) { // if the answer was correct
-            alert( "it is correct");
-            mySelection = "";
             $(".winer-result, #winner").show();
-           // clearInterval(gameTime1);
             totalWin++;
             // go to the next question
-            setTimeout(openingScreen, 1000);
+            clearInterval(timeCounter);
+            $("#time-left").text(timeLeft);
+            gamePauseCounter = setInterval(gamePause, 1000 * 3);
         } else if (correctAnswer !== mySelection) {
-            alert( "it is wrong");
             $("#correct1").text(correctAnswer);
             $(".loser-result, .correct-answer1, #loser").show(); // if the answer was wrong
-           // clearInterval(gameTime1);
             totalLose++;
             // go to the next question
-            setTimeout(openingScreen, 1000);
+            clearInterval(timeCounter);
+            $("#time-left").text(timeLeft);
+            gamePauseCounter = setInterval(gamePause, 1000 * 3);
         }
     });
 }
-// script starts here
+// script starts after the document is loaded
 $(document).ready(function () {
     $(".gen-style, .sub-style, img").hide();
 
     $("#start").on('click', function () {
+        timeCounter = setInterval(decrement, 1000);
         openingScreen();
     });
 });
