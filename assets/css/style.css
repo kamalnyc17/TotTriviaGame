@@ -1,0 +1,82 @@
+/* top level style */
+body {
+    max-width: 980px;
+    margin: auto;
+    border: 1px solid black;
+    background-size: contain;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+ul {
+    list-style-type: none;
+}
+li:hover {
+    font-weight: bold;
+}
+/* styling the containers */
+.container {    
+    background-image: url("../images/Background_Trivia.jpg");  
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+    height: 100vh; 
+    min-height: 100%;
+    border: 1px solid black;
+}
+.top-bottom {
+    height: 80px;
+}
+.subcontainer {
+    height: 80%;
+    width: 80%;
+    background-color: lightgoldenrodyellow;
+    margin: auto;
+    border: 1px solid black;
+    text-align: center;
+}
+/* page heading */
+.game-heading {
+    font-size: 44px;
+    line-height: 48px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: blue;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    width: 100%;
+}
+/* different font style across the page*/
+.gen-style {
+    font-size: 24px;
+    line-height: 26px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.sub-style {
+    font-size: 16px;
+    line-height: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+/* styling the image & button */
+button {
+    padding: 10px 50px;
+    border: 2px solid black;
+    border-radius: 12px;
+    font-size: 16px;
+    line-height: 20px;
+    margin-top: 175px;
+}
+button:hover,
+#restart:hover {
+    color: white;
+    background-color: lightslategray;
+}
+#restart:hover {
+    cursor: pointer;
+}
+img {
+    height: 100px;
+    width: 100px;
+    margin: auto;
+}
+/* end of style sheet */
