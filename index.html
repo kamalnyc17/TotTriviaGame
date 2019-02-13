@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Totally Trivial Trivia</title>
+
+    <!-- linking stylesheets -->
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+
+<body>
+    <!-- out container -->
+    <div class="container">
+        <div class="top-bottom"></div> <!-- buffer containter to add top/bottom margin -->
+        <!-- main container to hold everything -->
+        <div class="subcontainer">
+            <div class="heading">
+                <p class="game-heading">Totally Trivial Trivia!</p>
+            </div>
+            <!-- game Q&A body -->
+            <div class="question-section">
+                <p class="gen-style time-count-down">Time Remaining: <span id="time-left">15</span> Seconds.</p>
+                <p class="gen-style game-question"></p>
+                <ul>
+                    <li id="ans-1"></li>
+                    <li id="ans-2"></li>
+                    <li id="ans-3"></li>
+                    <li id="ans-4"></li>
+                </ul>
+            </div>
+            <!-- start button -->
+            <button type="button" id="start">Start</button>
+            <!-- result section with animation -->
+            <div class="winner-area">
+                <p class="gen-style winer-result">Correct!</p>
+                <img id="winner" src="assets/images/Winner.webp">
+            </div>
+            <div class="loser-area">
+                <p class="gen-style loser-result">Nope!</p>
+                <p class="sub-style correct-answer1">The Correct Answer Was: <span id="correct1"></span></p>
+                <img id="loser" src="assets/images/Loser.webp">
+            </div>
+            <div class="time-out">
+                <p class="gen-style timeout-result">Out of Time!</p>
+                <p class="sub-style correct-answer2">The Correct Answer Was: <span id="correct2"></span></p>
+                <img id="timeout" src="assets/images/time out.gif">
+            </div>
+            <div class="result">
+                <p class="gen-style final-result">All done. Here is how you did!</p>
+                <p class="sub-style correct">Correct Answers: <span id="correct-no">0</span></p>
+                <p class="sub-style incorrect">Incorrect Answers: <span id="incorrect-no">0</span></p>
+                <p class="sub-style unanswered">Unanswered Answers: <span id="unanswered-no">0</span></p>
+                <span class="gen-style" id="restart">Start Over?</span>
+            </div>
+        </div>
+        <div class="top-bottom"></div> <!-- buffer containter to add top/bottom margin -->
+    </div>
+
+    <!-- java script files -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="assets/javascript/app.js"></script>
+</body>
+
+</html>
