@@ -1,10 +1,10 @@
 var gameName = [];
 var correctAnswer;
 var gameCounter = 0;
-var timeCounter;
 var timeLeft = 5;
 var pauseLeft = 3;
 var gamePauseCounter;
+var timeCounter;
 var mySelection = "";
 var totalWin = 0;
 var totalLose = 0;
@@ -20,7 +20,6 @@ gameName[3] = ["When was the song Hotel California released?", "1977", "1982", "
 // count down clock for question
 function decrement() {
     timeLeft--;
-    console.log("decrement " + timeLeft);
     $("#time-left").text(timeLeft);
     if (timeLeft <= 0) {
         if (!isClicked) {
@@ -30,16 +29,16 @@ function decrement() {
         }
         clearInterval(timeCounter);
         $("#time-left").text(timeLeft);
-        timeLeft = 5;
         gamePauseCounter = setInterval(gamePause, 1000 * 3);
     }
 }
 // count down clock for "in between wait"
 function gamePause() {
     timeLeft = 5;
+    clearInterval(timeCounter);
     clearInterval(gamePauseCounter);
-    timeCounter = setInterval(decrement, 1000);
     if (gameCounter < 4) {
+        timeCounter = setInterval(decrement, 1000);
         openingScreen();
     } else {
         resetGame();
@@ -48,25 +47,22 @@ function gamePause() {
 // display scoreboard and offer to replay
 var resetGame = function () {
     $("#start").hide();
-    $(".time-count-down, .game-question, #start, .winer-result, .loser-result, .correct-answer1, .Interval-result, .correct-answer2, li, img").hide();
+    $(".time-count-down, .game-question, #start, .winer-result, .loser-result, .correct-answer1, .Interval-result, .timeout-result, .correct-answer2, li, img").hide();
     $(".final-result, .correct, .incorrect, .unanswered, #restart").show();
     $("#correct-no").text(totalWin);
     $("#incorrect-no").text(totalLose);
     $("#unanswered-no").text(totalUnanswer);
 
-    gameCounter = 0;
-    timeLeft = 5;
-    pauseLeft = 3;
-    mySelection = "";
-    totalWin = 0;
-    totalLose = 0;
-    totalUnanswer = 0;
-    isClicked = false;
-
     $("#restart").on('click', function () {
-        clearInterval(timeCounter);
+        timeLeft = 5;
+        pauseLeft = 3;
+        totalWin = 0;
+        totalLose = 0;
+        totalUnanswer = 0;
+        isClicked = false;
+        gameCounter = 0;
         timeCounter = setInterval(decrement, 1000);
-        //openingScreen();
+        openingScreen();
     });
 }
 // opening screen of the game
@@ -94,7 +90,6 @@ var optSelect = function () {
             $(".winer-result, #winner").show();
             totalWin++;
             // go to the next question
-            clearInterval(timeCounter);
             $("#time-left").text(timeLeft);
             gamePauseCounter = setInterval(gamePause, 1000 * 3);
         } else if (correctAnswer !== mySelection) {
@@ -102,7 +97,6 @@ var optSelect = function () {
             $(".loser-result, .correct-answer1, #loser").show(); // if the answer was wrong
             totalLose++;
             // go to the next question
-            clearInterval(timeCounter);
             $("#time-left").text(timeLeft);
             gamePauseCounter = setInterval(gamePause, 1000 * 3);
         }
