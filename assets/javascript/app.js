@@ -29,15 +29,16 @@ function decrement() {
         }
         clearInterval(timeCounter);
         $("#time-left").text(timeLeft);
-        gamePauseCounter = setInterval(gamePause, 1000 * 3);
+        gamePauseCounter = setTimeout(gamePause, 1000 * 3);
     }
 }
-// count down clock for "in between wait"
+// count down clock for "time in between questions"
 function gamePause() {
-    timeLeft = 5;
     clearInterval(timeCounter);
-    clearInterval(gamePauseCounter);
+    clearTimeout(gamePauseCounter);
     if (gameCounter < 4) {
+        timeLeft = 5;
+        gameCounter++;
         timeCounter = setInterval(decrement, 1000);
         openingScreen();
     } else {
@@ -77,7 +78,7 @@ var openingScreen = function () {
         $("#ans-" + (j).toString().trim()).text(gameName[gameCounter][j]);
     }
     correctAnswer = gameName[gameCounter][5];
-    gameCounter++;
+    //gameCounter++;
     optSelect();
 }
 // action after selecting an option
@@ -91,14 +92,14 @@ var optSelect = function () {
             totalWin++;
             // go to the next question
             $("#time-left").text(timeLeft);
-            gamePauseCounter = setInterval(gamePause, 1000 * 3);
+            gamePauseCounter = setTimeout(gamePause, 1000 * 3);
         } else if (correctAnswer !== mySelection) {
             $("#correct1").text(correctAnswer);
             $(".loser-result, .correct-answer1, #loser").show(); // if the answer was wrong
             totalLose++;
             // go to the next question
             $("#time-left").text(timeLeft);
-            gamePauseCounter = setInterval(gamePause, 1000 * 3);
+            gamePauseCounter = setTimeout(gamePause, 1000 * 3);
         }
     });
 }
